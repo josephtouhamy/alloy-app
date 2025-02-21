@@ -11,8 +11,8 @@ app = Flask(__name__)
 CORS(app)  # Allow frontend (React) to communicate with backend (Flask)
 
 # ✅ Alloy API Credentials 
-WORKFLOW_TOKEN = "kGemswS5SbttQES9UiTjtzm3dK42gabo"
-WORKFLOW_SECRET = "TwgGqql6RcveAvEunvmHDhxXDtrtmB46"
+WORKFLOW_TOKEN = ""
+WORKFLOW_SECRET = ""
 
 # ✅ Encode credentials for Alloy API authentication
 auth_string = f"{WORKFLOW_TOKEN}:{WORKFLOW_SECRET}"
@@ -38,7 +38,6 @@ def submit_application():
     try:
         data = request.json  # ✅ Get data from React frontend
 
-        # (Your existing code for preparing the data)
 
         # ✅ Send request to Alloy API
         response = requests.post(ALLOY_API_URL, headers=HEADERS, json=data, timeout=10)
