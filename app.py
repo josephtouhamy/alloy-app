@@ -3,18 +3,18 @@ import base64
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import requests
+import logging
 from requests.exceptions import RequestException, HTTPError, ConnectionError, Timeout
-
 
 
 app = Flask(__name__)
 CORS(app)  # Allow frontend (React) to communicate with backend (Flask)
 
-# ✅ Alloy API Credentials 
+# Alloy API Credentials 
 WORKFLOW_TOKEN = ""
 WORKFLOW_SECRET = ""
 
-# ✅ Encode credentials for Alloy API authentication
+# Encode credentials for Alloy API authentication
 auth_string = f"{WORKFLOW_TOKEN}:{WORKFLOW_SECRET}"
 auth_header = base64.b64encode(auth_string.encode()).decode()
 
@@ -24,10 +24,8 @@ HEADERS = {
     "Content-Type": "application/json"
 }
 
-ALLOY_API_URL = "https://sandbox.alloy.co/v1/evaluations/"  # ✅ Define API URL once
+ALLOY_API_URL = "https://sandbox.alloy.co/v1/evaluations/"  # Define API URL once
 
-import logging
-from requests.exceptions import RequestException, HTTPError, ConnectionError, Timeout
 
 # Set up logging
 logging.basicConfig(level=logging.ERROR)
@@ -36,15 +34,15 @@ logging.basicConfig(level=logging.ERROR)
 def submit_application():
     """Handles form submission and sends data to Alloy API."""
     try:
-        data = request.json  # ✅ Get data from React frontend
+        data = request.json  #  Get data from React frontend
 
 
-        # ✅ Send request to Alloy API
+        #  Send request to Alloy API
         response = requests.post(ALLOY_API_URL, headers=HEADERS, json=data, timeout=10)
         response.raise_for_status()  # Raises an HTTPError for bad responses
 
         alloy_response = response.json()
-        print("Alloy Full Response:", alloy_response)  # ✅ Debugging
+        print("Alloy Full Response:", alloy_response)  #  Debugging
 
         # Extract the outcome from the Alloy response
         outcome = alloy_response.get("summary", {}).get("outcome", "No decision available")
